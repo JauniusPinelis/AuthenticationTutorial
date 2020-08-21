@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using IdentityExample.Data;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,10 +10,17 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Basics.Controllers
+namespace IdentityExample.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public HomeController(UserManager<IdentityUser> userManager)
+        {
+            _userManager = userManager;
+        }
+
         public IActionResult Index()
 		{
             return View();
@@ -23,29 +32,37 @@ namespace Basics.Controllers
             return View();
         }
 
-        public IActionResult Authenticate()
+        public IActionResult Login()
 		{
-            var grandmaClaims = new List<Claim>()
+            return View();
+        }
+
+        public IActionResult Login(string username, string password)
+        {
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+        public async Task<IActionResult> Register(string username, string password)
+        {
+            var user = new IdentityUser()
             {
-                new Claim(ClaimTypes.Name, "Bob"),
-                new Claim(ClaimTypes.Email, "Bob@gmail.com"),
-                new Claim("Grandma.Says", "Very nice boi.")
+                UserName = username,
+                Email = "",
             };
 
-            var licenseClaims = new List<Claim>() {
-              new Claim(ClaimTypes.Name, "Bob K Foo"),
-              new Claim("DrivingLicense", "A+")
-            };
-
-            var grandmaIdentity = new ClaimsIdentity(grandmaClaims, "Grandma Identity");
-            var licenseIdentity = new ClaimsIdentity(licenseClaims, "Government");
-
-            var userPrincipal = new ClaimsPrincipal(new[] { grandmaIdentity, licenseIdentity });
-
-            HttpContext.SignInAsync(userPrincipal);
+            var result = await _userManager.CreateAsync(user, password);
+            if (result.Succeeded)
+            {
+                // sign user here
+            }
 
             return RedirectToAction("Index");
-		}
+        }
+
 
     }
 }
