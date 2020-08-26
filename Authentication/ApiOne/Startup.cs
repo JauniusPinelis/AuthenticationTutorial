@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -14,15 +15,29 @@ namespace ApiOne
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", config =>
-                {
-                    config.Authority = "http://localhost:57313/";
+			//services.AddAuthentication(o =>
+			//{
+			//    o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+			//    o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			//})
+			//  .AddJwtBearer("Bearer", config =>
+			//  {
+			//      config.Authority = "http://localhost:57313/";
+			//      config.Audience = "ApiOne";
+			//      config.RequireHttpsMetadata = false;
+			//  });
 
-                    config.Audience = "ApiOne";
+
+			services.AddAuthentication("Bearer")
+				.AddJwtBearer("Bearer", config =>
+				{
+					config.Authority = "http://localhost:57313/";
+
+					config.Audience = "ApiOne";
+                    config.RequireHttpsMetadata = false;
                 });
 
-            services.AddControllers();
+			services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
