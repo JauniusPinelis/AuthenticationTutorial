@@ -12,7 +12,8 @@ namespace IdentityService4
     {
         public static IEnumerable<ApiResource> GetApis() =>
             new List<ApiResource> { 
-                new ApiResource("ApiOne")
+                new ApiResource("ApiOne"),
+                new ApiResource("ApiTwo")
             };
 
         public static IEnumerable<Client> GetClients() =>
@@ -22,6 +23,12 @@ namespace IdentityService4
                     ClientSecrets = { new Secret("client_secret".ToSha256()) },
                     AllowedGrantTypes =  GrantTypes.ClientCredentials,
                     AllowedScopes = {"ApiOne" }
+                },
+                new Client{
+                    ClientId = "client_id_mvc",
+                    ClientSecrets = { new Secret("client_secret_mvc".ToSha256()) },
+                    AllowedGrantTypes =  GrantTypes.Code,
+                    AllowedScopes = {"ApiOne","ApiTwo" }
                 }
             };
     }
