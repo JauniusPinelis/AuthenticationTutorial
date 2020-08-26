@@ -8,13 +8,21 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NETCore.MailKit.Extensions;
+using NETCore.MailKit.Infrastructure.Internal;
 
 namespace IdentityExample
 {
 	public class Startup
 	{
+		private IConfiguration _config;
+        public Startup(IConfiguration config)
+        {
+			_config = config;
+        }
 		// This method gets called by the runtime. Use this method to add services to the container.
 		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 		public void ConfigureServices(IServiceCollection services)
@@ -42,6 +50,14 @@ namespace IdentityExample
 			//		config.Cookie.Name = "Grandmas.Cookie";
 			//		config.LoginPath = "/Home/Authenticate";
 			//	});
+
+			var mailKitOptions = _config.GetSection("Email").Get<MailKitOptions>();
+
+			services.AddMailKit(Configure =>
+			{
+				var options = new MailKitOptions();
+				Configure.UseMailKit(options);
+			});
 
 			services.AddControllersWithViews();
 		}
