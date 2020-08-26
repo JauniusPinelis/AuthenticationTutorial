@@ -5,7 +5,13 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basics", "Basics\Basics.csproj", "{19426155-D2AD-440D-A5A7-A9189921980F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityExample", "IdentityExample\IdentityExample.csproj", "{B290755B-7125-44C5-B593-4BB90FD541B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityExample", "IdentityExample\IdentityExample.csproj", "{B290755B-7125-44C5-B593-4BB90FD541B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityService", "IdentityService", "{414DFCEB-8017-4E7E-9C2A-A7E7860BC233}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "basic", "basic", "{0C300A7C-5DDA-4328-9432-7A6D5456F0DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService4", "IdentityService\IdentityService4\IdentityService4.csproj", "{AF843275-24B0-4A3D-A23E-C68817A6A5A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +27,18 @@ Global
 		{B290755B-7125-44C5-B593-4BB90FD541B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B290755B-7125-44C5-B593-4BB90FD541B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B290755B-7125-44C5-B593-4BB90FD541B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF843275-24B0-4A3D-A23E-C68817A6A5A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF843275-24B0-4A3D-A23E-C68817A6A5A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF843275-24B0-4A3D-A23E-C68817A6A5A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF843275-24B0-4A3D-A23E-C68817A6A5A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{19426155-D2AD-440D-A5A7-A9189921980F} = {0C300A7C-5DDA-4328-9432-7A6D5456F0DF}
+		{B290755B-7125-44C5-B593-4BB90FD541B2} = {0C300A7C-5DDA-4328-9432-7A6D5456F0DF}
+		{AF843275-24B0-4A3D-A23E-C68817A6A5A1} = {414DFCEB-8017-4E7E-9C2A-A7E7860BC233}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C2BDFB6D-9D0E-4683-8BA7-E0A42096521D}
