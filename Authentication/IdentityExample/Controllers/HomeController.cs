@@ -50,6 +50,8 @@ namespace IdentityExample.Controllers
                 //sign in
                 if (signInResult.Succeeded)
                 {
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
                     return RedirectToAction("Index");
                 }
             }
@@ -85,6 +87,12 @@ namespace IdentityExample.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> VerifyEmail(string userId, string code)
+        {
+            return View();
+        }
+
+        public IActionResult EmailVerification() => View();
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
