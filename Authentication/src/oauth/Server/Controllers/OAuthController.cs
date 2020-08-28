@@ -10,13 +10,24 @@ namespace Server.Controllers
     public class OAuthController : Controller
     {
         [HttpGet]
-        public IActionResult Authorize()
+        public IActionResult Authorize(
+            string response_type,
+            string client_id,
+            string redirect_uri,
+            string scope,
+            string state
+            )
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Authorize(string username)
+        public IActionResult Authorize(string response_type,
+            string client_id,
+            string redirect_uri,
+            string scope,
+            string state,
+            string username)
         {
             return View();
         }
