@@ -12,13 +12,30 @@ namespace Client
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(config =>
+            {
+                // We check the cookie to confirm that we are authenticated
+                config.DefaultAuthenticateScheme = "ClientCookie";
+                // when we sign in  we will deal out a cookie
+                config.DefaultSignInScheme = "ClientCookie";
+                // Use this to check if we are allowed to do something
+                config.DefaultChallengeScheme = "OurServer";
+            })
+                .AddCookie("ClientCookie")
+                .AddOAuth("OurServer", config =>
+                {
+                    config.ClientId = "client_id";
+                    config.ClientSecret = "client_secret";
+                    config.CallbackPath = "/oauth/callback";
+                    config.AuthorizationEndpoint = "https://localhost:44345/oauth/authorize";
+                    config.TokenEndpoint = "https://localhost:44345/oauth/token";
+                });
+
+            services.AddControllersWithViews();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -28,12 +45,13 @@ namespace Client
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }
