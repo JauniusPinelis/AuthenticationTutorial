@@ -19,9 +19,10 @@ namespace IdentityService
             {
                 new Client
                 {
-                    ClientId = "Client_id",
+                    ClientId = "client_id",
                     ClientSecrets = { new Secret("client_secret".ToSha256()) },
-                    AllowedGrantTypes = GrantTypes.ClientCredentials
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedScopes = {"ApiOne"}
                 }
             };
     }

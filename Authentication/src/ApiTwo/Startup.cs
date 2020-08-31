@@ -21,6 +21,7 @@ namespace ApiTwo
                    config.Authority = "http://localhost:52005/";
 
                    config.Audience = "ApiTwo";
+                   config.RequireHttpsMetadata = false;
                });
 
             services.AddHttpClient();
