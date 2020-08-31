@@ -1,4 +1,5 @@
 ﻿using IdentityService.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,59 @@ namespace IdentityService.Controllers
 {
     public class AuthController : Controller
     {
-        public IActionResult Login()
+		private readonly SignInManager<IdentityUser> _signInManager;
+		private readonly UserManager<IdentityUser> _userManager;
+
+		public AuthController(SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager)
+		{
+            _signInManager = signInManager;
+            _userManager = userManager;
+		}
+
+        [HttpGet]
+        public IActionResult Login(string returnUrl)
         {
+            return View(new LoginViewModel { ReturnUrl = returnUrl });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel vm)
+        {
+            var result = await _signInManager.PasswordSignInAsync(vm.Username, vm.Password, false, false);
+
+            if (result.Succeeded)
+			{
+                return Redirect(vm.ReturnUrl);
+			}
+
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Register(string returnUrl)
+		{
+            return View(new RegisterViewModel { ReturnUrl = returnUrl });
+		}
 
-        public IActionResult Login(LoginViewModel vm)
-        {
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel vm)
+		{
+            if (!ModelState.IsValid)
+			{
+                return View(vm);
+			}
+
+            var user = new IdentityUser(vm.Username);
+            var result = await _userManager.CreateAsync(user, vm.Password);
+
+            if (result.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, false);
+
+                return Redirect(vm.ReturnUrl);
+            }
+
             return View();
         }
     }
