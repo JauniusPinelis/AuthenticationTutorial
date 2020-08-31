@@ -32,6 +32,12 @@ namespace MvcClient
                     config.SaveTokens = true;
 
                     config.ResponseType = "code";
+
+                    //Configure scope
+                    config.GetClaimsFromUserInfoEndpoint = true;
+
+                    config.Scope.Add("rc.scope");
+
                 });
             services.AddControllersWithViews();
         }

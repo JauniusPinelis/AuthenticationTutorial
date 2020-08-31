@@ -13,7 +13,12 @@ namespace IdentityService
         public static IEnumerable<IdentityResource> GetIdentityResources() =>
             new List<IdentityResource>() {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
+                new IdentityResources.Profile(),
+                new IdentityResource
+				{
+                    Name = "rc.scope",
+                    UserClaims = {"rc.grandma" }
+				}
             };
 
         public static IEnumerable<ApiResource> GetApis() =>
@@ -43,8 +48,12 @@ namespace IdentityService
 
                     AllowedScopes = {"ApiOne", "ApiTwo",
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "rc.scope"
                     },
+
+                    //AlwaysIncludeUserClaimsInIdToken = true;
+
                     RequireConsent = false
                 }
             };
