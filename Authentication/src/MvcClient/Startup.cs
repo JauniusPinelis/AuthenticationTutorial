@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace IdentityService
+namespace MvcClient
 {
     public class Startup
     {
@@ -16,12 +16,23 @@ namespace IdentityService
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityServer()
-                .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
-                .AddInMemoryApiResources(Configuration.GetApis())
-                .AddInMemoryClients(Configuration.GetClients())
-                .AddDeveloperSigningCredential();
+            services.AddAuthentication(
+                    config =>
+                    {
+                        config.DefaultScheme = "Cookie";
+                        config.DefaultChallengeScheme = "oidc";
+                    }
+                )
+                .AddCookie("Cookie")
+                .AddOpenIdConnect("oidc", config =>
+                {
+                    config.Authority = "https://localhost:44397/";
+                    config.ClientId = "client_id_mvc";
+                    config.ClientSecret = "client_secret_mvc";
+                    config.SaveTokens = true;
 
+                    config.ResponseType = "code";
+                });
             services.AddControllersWithViews();
         }
 
@@ -35,7 +46,9 @@ namespace IdentityService
 
             app.UseRouting();
 
-            app.UseIdentityServer();
+            app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
