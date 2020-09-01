@@ -16,6 +16,8 @@ namespace MvcClient
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
+
             services.AddAuthentication(
                     config =>
                     {
@@ -37,6 +39,7 @@ namespace MvcClient
                     config.GetClaimsFromUserInfoEndpoint = true;
 
                     config.Scope.Add("rc.scope");
+                    config.Scope.Add("offline_access");
 
                 });
             services.AddControllersWithViews();

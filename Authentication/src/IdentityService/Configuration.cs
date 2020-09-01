@@ -54,7 +54,8 @@ namespace IdentityService
 
                     //AlwaysIncludeUserClaimsInIdToken = true;
 
-                    RequireConsent = false
+                    RequireConsent = false,
+                    AllowOfflineAccess = true
                 }
             };
     }
