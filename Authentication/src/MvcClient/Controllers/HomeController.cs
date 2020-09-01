@@ -31,10 +31,13 @@ namespace MvcClient.Controllers
         {
             var idToken = await HttpContext.GetTokenAsync("id_token");
             var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
+
+            await RefreshAccessToken();
+
             return View();
         }
 
-        public async Task RefreshAccessToken()
+        private async Task RefreshAccessToken()
 		{
             var serverClient = _httpClientFactory.CreateClient();
             var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync("https://localhost:44397/");
@@ -46,25 +49,17 @@ namespace MvcClient.Controllers
             var tokenResponse = await refreshTokenClient.RequestRefreshTokenAsync(new RefreshTokenRequest { 
                 Address = discoveryDocument.TokenEndpoint,
                 RefreshToken = refreshToken,
-                ClientId = "client_mvc_id",
-                ClientSecret = "client_mvc_secret",
+                ClientId = "client_id_mvc",
+                ClientSecret = "client_secret_mvc",
             });
 
+            var authInfo = await HttpContext.AuthenticateAsync("Cookie");
 
-            var requestData = new Dictionary<string, string>
-            {
-                ["grant_type"] = "refresh_token",
-                ["refresh_token"] = refreshToken
-            };
+            authInfo.Properties.UpdateTokenValue("acess_token", tokenResponse.AccessToken);
+            authInfo.Properties.UpdateTokenValue("id_token", tokenResponse.IdentityToken);
+            authInfo.Properties.UpdateTokenValue("refresh_token", tokenResponse.RefreshToken);
 
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44397/")
-            {
-                Content = new FormUrlEncodedContent(requestData)
-            };
-
-            var basicCredentials = "username:password";
-
-
+            await HttpContext.SignInAsync("Cookie", authInfo.Principal, authInfo.Properties);
 		}
     }
 }
