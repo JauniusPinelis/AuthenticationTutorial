@@ -61,7 +61,7 @@ namespace IdentityService
                 {
                     ClientId = "client_id_js",
                     AllowedGrantTypes = GrantTypes.Implicit,
-                    RedirectUris = { "https://localhost:44374/signin" },
+                    RedirectUris = { "https://localhost:44374/Home/signin" },
 
                     AllowedScopes =
                     {
@@ -69,6 +69,7 @@ namespace IdentityService
                         "ApiOne"
                     },
 
+                    AllowedCorsOrigins = { "https://localhost:44374" },
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false
                    

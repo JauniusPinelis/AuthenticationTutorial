@@ -36,6 +36,12 @@ namespace ApiOne
                     };
                 });
 
+            services.AddCors(config => 
+            config.AddPolicy("AllowAll", 
+            p => p.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()));
+
             services.AddControllers();
         }
 
@@ -50,6 +56,8 @@ namespace ApiOne
             app.UseRouting();
 
             app.UseAuthentication();
+
+            app.UseCors("AllowAll");
 
             app.UseAuthorization();
 
