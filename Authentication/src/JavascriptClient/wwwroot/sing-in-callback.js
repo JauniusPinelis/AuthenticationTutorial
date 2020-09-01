@@ -1,0 +1,18 @@
+﻿var callbackUrl = "https://localhost:44374/SignIn#id_token=eyJhbGciOiJSUzI1NiIsImtpZCI6ImkxOXhiMzFyUFpEelJEeS1iQndlSUEiLCJ0eXAiOiJKV1QifQ.eyJuYmYiOjE1OTg5NTMwNjYsImV4cCI6MTU5ODk1MzM2NiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzOTciLCJhdWQiOiJjbGllbnRfaWRfanMiLCJub25jZSI6Ik5vbmNlVmFsdWVmZGZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZndGdnZ2d0eXR5dHl5dHl0IiwiaWF0IjoxNTk4OTUzMDY2LCJhdF9oYXNoIjoiSjYwUDNZTWExWGJpeWVXeWFyRjlMUSIsInNfaGFzaCI6IjFsOEljcUhUenBoRVkxVmxyaVpIRHciLCJzaWQiOiJVVFloakIxYk16ZU40QmdSWXJTZ1ZnIiwic3ViIjoiNjI1N2IxZDItMzNiNS00MjIzLTlhZTAtMTY5YzU2NWI2NjNkIiwiYXV0aF90aW1lIjoxNTk4OTUzMDY2LCJpZHAiOiJsb2NhbCIsImFtciI6WyJwd2QiXX0.bOPA2C8DjwUNx-RYplaqovHAgGfomi2VCD_z2mUnw9LEbu52JKr5Lk5AqUzTJPmAJiZryQgG905NsMHMBt8UaciEPa44MAi1cfM3JReR6MNI8uCZtx8131B-owXowvjhym6Ld9Yoh0p--npYd6BDmqLvNrCpYVH2D44Y22ox8DVW5rrLM3MlE2o0lNiP7YGLttyFZfilHrKvy5Um-p6it4HQeyRETESWUZcK1hVMEnQoths9_SxZMFUF4txZcZNknmbvKG9pivwd4wvRvmuBtGxIdEW39NtaGAbIAOoJhq1zVZjwvj_wEPRF8KT0hADnxAzDqyAet-PbPoJaQeQs8w&access_token=eyJhbGciOiJSUzI1NiIsImtpZCI6ImkxOXhiMzFyUFpEelJEeS1iQndlSUEiLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE1OTg5NTMwNjYsImV4cCI6MTU5ODk1NjY2NiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzOTciLCJhdWQiOiJBcGlPbmUiLCJjbGllbnRfaWQiOiJjbGllbnRfaWRfanMiLCJzdWIiOiI2MjU3YjFkMi0zM2I1LTQyMjMtOWFlMC0xNjljNTY1YjY2M2QiLCJhdXRoX3RpbWUiOjE1OTg5NTMwNjYsImlkcCI6ImxvY2FsIiwic2NvcGUiOlsib3BlbmlkIiwiQXBpT25lIl0sImFtciI6WyJwd2QiXX0.VAqCFx66t4kNdTgCvRTTKXFhqQDBlFzi4hNe8o0mS3jATIKWobnmGyEE1-rg69WvgbBZFUHsRwglqz5DoTKdMD-D8FPijOEcDtej3heKgbbU5yhyTP3Bo1HJKyTUcyVgTcxqxtcKIneKcqXhVOmQw6duuyWUSAR8EngS-gu9uDGVvJRvjpuHnQW8ox11bO3WlpKFOI2peQNIZqam2g5EiAKFF0XsgdH3rkVi4-04WtLtoLPhVB7-wkiVSS1M4CP-KJGAQuDXSzjqmfUphf0sQUIKBTcQkUbLFt_1yBgBPaKWi76zzZvV7D22mLbMF544xCLUfTaLhERP2G6Vf9iPSQ&token_type=Bearer&expires_in=3600&scope=openid%20ApiOne&state=SessionValueMakeItAbitLongerasdsfdfdfdvfdfdflgfjklmlmlm&session_state=kq4O81dE22rtwJ1sH-YdHP5DrlcchkJpxflKi_92Ceg.K_gmFRxN8gAjaVFNsitqkw";
+
+var extractTokens = function (address) {
+    var returnValue = address.split('#')[1];
+    var values = returnValue.split('&');
+
+    for (var i = 0; i < values.length; i++) {
+        var v = values[i];
+        var kvPair = v.split('=');
+        localStorage.setItem(kvPair[0], kvPair[1]);
+    }
+
+    console.log(values);
+
+    window.location.href = '/home/index'; 
+}
+
+extractTokens(window.location.href);
