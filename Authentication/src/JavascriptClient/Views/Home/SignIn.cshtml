@@ -1,7 +1,7 @@
 ﻿<script src="https://cdnjs.cloudflare.com/ajax/libs/oidc-client/1.9.1/oidc-client.min.js" integrity="sha512-VqqQBI9NQw5Ws2sqTP9aTdkBKp8+Y6HqLrP92d/8TbCMfdZyAkwu585cVYfA65+u+irPnr3lHhuEN7J3vuX5ZA==" crossorigin="anonymous"></script>
 
 <script>
-    var userManager = new Oidc.UserManager();
+	var userManager = new Oidc.UserManager({ userStore: new Oidc.WebStorageStateStore({ store: window.localStorage })});
 
     userManager.signinCallback().then(res => {
 

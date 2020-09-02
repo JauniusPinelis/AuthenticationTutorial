@@ -66,7 +66,9 @@ namespace IdentityService
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
-                        "ApiOne"
+                        "ApiOne",
+                        "ApiTwo",
+                        "rc.scope"
                     },
 
                     AllowedCorsOrigins = { "https://localhost:44374" },

@@ -1,9 +1,10 @@
 ﻿var config = {
+    userStore: new Oidc.WebStorageStateStore({ store: window.localStorage }),
     authority: "https://localhost:44397",
     client_id: "client_id_js",
     redirect_uri: "https://localhost:44374/Home/SignIn",
     response_type: "id_token token",
-    scope: "openid ApiOne"
+    scope: "openid rc.scope ApiOne ApiTwo"
 };
 
 var userManager = new Oidc.UserManager(config);
