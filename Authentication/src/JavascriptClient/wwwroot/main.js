@@ -26,3 +26,35 @@ var callApi = function () {
             console.log(res);
         })
 }
+
+var refreshing = false;
+
+axios.interceptors.response.use(
+    function (response) {
+    return response;
+    },
+    function (error) {
+        console.log("axios error:", error.response);
+
+        var axiosConfig = error.response.config;
+
+        // if error response is 401 try to refresh token
+        if (error.response.status === 401) {
+
+            if (!refreshing) {
+                refreshing = true;
+
+                userManager.signinSilent().then(user => {
+                    console.log("new user:", user);
+
+                    axios.defaults.headers.common["Authorization"] = "Bearer " + user.access_token;
+                    axiosConfig.headers["Authorization"] = "Bearer " + user.access_token;
+
+                    return axios(axiosConfig)
+                });
+            }
+        }
+
+        return Promise.reject(error);
+    }
+)

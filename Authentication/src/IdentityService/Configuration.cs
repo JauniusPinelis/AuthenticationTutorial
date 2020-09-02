@@ -71,6 +71,8 @@ namespace IdentityService
                         "rc.scope"
                     },
 
+                    AccessTokenLifetime = 1,
+
                     AllowedCorsOrigins = { "https://localhost:44374" },
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false

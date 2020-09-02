@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using IdentityService.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -14,13 +16,20 @@ namespace IdentityService
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        private readonly IConfiguration _config;
+
+        public Startup(IConfiguration config)
+        {
+            _config = config;
+        }
+        
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = _config.GetConnectionString("DefaultConnection");
+
             services.AddDbContext<AppDbContext>(config =>
             {
-                config.UseInMemoryDatabase("Memory");
+                config.UseSqlServer(connectionString);
             });
 
             services.AddIdentity<IdentityUser, IdentityRole>(config =>
@@ -39,11 +48,21 @@ namespace IdentityService
                 config.LoginPath = "/Auth/Login";
             });
 
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+            
+
             services.AddIdentityServer()
-                .AddAspNetIdentity<IdentityUser>()
-                .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
-                .AddInMemoryApiResources(Configuration.GetApis())
-                .AddInMemoryClients(Configuration.GetClients())
+               .AddAspNetIdentity<IdentityUser>()
+               .AddConfigurationStore(options =>
+               {
+                   options.ConfigureDbContext = b => b.UseSqlServer(connectionString,
+                       sql => sql.MigrationsAssembly(migrationsAssembly));
+               })
+                .AddOperationalStore(options =>
+                {
+                    options.ConfigureDbContext = b => b.UseSqlServer(connectionString,
+                        sql => sql.MigrationsAssembly(migrationsAssembly));
+                })
                 .AddDeveloperSigningCredential();
 
             services.AddControllersWithViews();
@@ -56,6 +75,7 @@ namespace IdentityService
             {
                 app.UseDeveloperExceptionPage();
             }
+
 
             app.UseRouting();
 
