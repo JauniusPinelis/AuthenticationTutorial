@@ -22,12 +22,12 @@ namespace IdentityService
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-                var user = new IdentityUser("bob");
-                userManager.CreateAsync(user, "password").GetAwaiter().GetResult();
-                userManager.AddClaimAsync(user, new Claim("rc.grandma", "big.cookie")).GetAwaiter().GetResult();
-            }
+				var user = new IdentityUser("bob");
+				userManager.CreateAsync(user, "password").GetAwaiter().GetResult();
+				userManager.AddClaimAsync(user, new Claim("rc.grandma", "big.cookie")).GetAwaiter().GetResult();
+			}
 
-            host.Run();
+			host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
