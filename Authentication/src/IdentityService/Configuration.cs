@@ -45,6 +45,7 @@ namespace IdentityService
                     AllowedGrantTypes = GrantTypes.Code,
 
                     RedirectUris = { "https://localhost:44317/signin-oidc" },
+                    PostLogoutRedirectUris = {"https://localhost:44317/Home/Index"},
 
                     AllowedScopes = {"ApiOne", "ApiTwo",
                         IdentityServerConstants.StandardScopes.OpenId,
